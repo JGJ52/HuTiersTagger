@@ -22,7 +22,7 @@ public class PlayerPrefixManager {
             try {
                 prefixMap.put(playerName, "");
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(new URI("https://hutiers.hu/api/player/" + playerName))
+                        .uri(new URI("https://api.hutiers.hu/v1/player/" + playerName))
                         .GET()
                         .build();
 
