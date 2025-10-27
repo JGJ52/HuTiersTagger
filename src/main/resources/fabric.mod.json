@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "hutierstagger",
+  "version": "${version}",
+  "name": "HuTiersTagger",
+  "description": "",
+  "authors": ["JGJ52"],
+  "contact": {},
+  "license": "AGPL-3.0",
+  "icon": "assets/hutierstagger/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "hu.jgj52.hutierstagger.client.HutierstaggerDataGenerator"
+    ],
+    "client": [
+      "hu.jgj52.hutierstagger.client.HutierstaggerClient"
+    ],
+    "main": [
+      "hu.jgj52.hutierstagger.Hutierstagger"
+    ]
+  },
+  "mixins": [
+    "hutierstagger.mixins.json",
+    {
+      "config": "hutierstagger.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
