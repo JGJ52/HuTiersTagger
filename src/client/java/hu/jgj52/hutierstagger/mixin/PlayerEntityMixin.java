@@ -1,5 +1,6 @@
 package hu.jgj52.hutierstagger.mixin;
 
+import hu.jgj52.hutierstagger.client.ConfigFile;
 import hu.jgj52.hutierstagger.client.PlayerPrefixManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Style;
@@ -16,7 +17,7 @@ public abstract class PlayerEntityMixin {
     @Inject(method = "getName", at = @At("HEAD"), cancellable = true)
     public void getNameHook(CallbackInfoReturnable<Text> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        String playerName = player.getGameProfile().name();
+        String playerName = getPlayerName(player);
 
         String prefix = PlayerPrefixManager.getPrefix(playerName);
         if (prefix == null) {
@@ -38,6 +39,20 @@ public abstract class PlayerEntityMixin {
                 case "LT5" -> "2e5176";
                 default -> "ffffff";
             };
+            String icon = switch (ConfigFile.get("gamemode", "vanilla")) {
+                case "vanilla" -> "";
+                case "uhc" -> "";
+                case "pot" -> "";
+                case "nethpot" -> "";
+                case "smp" -> "";
+                case "sword" -> "";
+                case "axe" -> "";
+                case "mace" -> "";
+                case "cart" -> "";
+                case "diasmp" -> "";
+                case "shieldlessuhc" -> "";
+                default -> "";
+            };
             if (retired) {
                 if (prefix.startsWith("HT")) {
                     color = "651d6e";
@@ -46,7 +61,24 @@ public abstract class PlayerEntityMixin {
                 }
                 prefix = "R" + prefix;
             }
-            cir.setReturnValue(Text.literal("").append(Text.literal(prefix).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(Integer.parseInt(color, 16))))).append(Text.literal(" §8| §r" + playerName)));
+            cir.setReturnValue(Text.literal("").append(Text.literal(icon + " ")).append(Text.literal(prefix).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(Integer.parseInt(color, 16))))).append(Text.literal(" §8| §r")).append(Text.literal(playerName)));
         }
     }
+
+    private static String getPlayerName(PlayerEntity player) {
+        try {
+            return player.getGameProfile().name();
+        } catch (NoSuchMethodError e) {
+            try {
+                return (String) player.getGameProfile()
+                        .getClass()
+                        .getMethod("getName")
+                        .invoke(player.getGameProfile());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return "unknown";
+            }
+        }
+    }
+
 }

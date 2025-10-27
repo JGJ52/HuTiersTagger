@@ -20,9 +20,9 @@ public class PlayerPrefixManager {
     public static void fetchPlayer(String playerName) {
         new Thread(() -> {
             try {
-                prefixMap.put(playerName, "");
+                prefixMap.putIfAbsent(playerName, "");
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(new URI("https://hutiers.hu/api/player/" + playerName))
+                        .uri(new URI("https://api.hutiers.hu/v1/player/" + playerName))
                         .GET()
                         .build();
 
