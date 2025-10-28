@@ -65,17 +65,31 @@
     },
     {
       "type": "bitmap",
-      "file": "hutierstagger:icons/diasmp.png",
+      "file": "hutierstagger:icons/creeper.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "hutierstagger:icons/shieldlessuhc.png",
+      "file": "hutierstagger:icons/diasmp.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/ogvanilla.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/shieldlessuhc.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
     }
   ]
 }

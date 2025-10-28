@@ -4,6 +4,7 @@ import hu.jgj52.hutierstagger.client.ConfigFile;
 import hu.jgj52.hutierstagger.client.PlayerPrefixManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Style;
+import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Identifier;
@@ -18,7 +19,7 @@ public abstract class PlayerEntityMixin {
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
     public void getDisplayNameHook(CallbackInfoReturnable<Text> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        String playerName = player.getGameProfile().getName();
+        String playerName = player.getGameProfile().name();
 
         String prefix = PlayerPrefixManager.getPrefix(playerName);
         if (prefix == null) {
@@ -43,18 +44,20 @@ public abstract class PlayerEntityMixin {
                 default -> "ffffff";
             };
 
-            String icon = switch (ConfigFile.get("gamemode", "vanilla")) {
-                case "vanilla" -> "";
-                case "uhc" -> "";
-                case "pot" -> "";
-                case "nethpot" -> "";
-                case "smp" -> "";
-                case "sword" -> "";
-                case "axe" -> "";
-                case "mace" -> "";
-                case "cart" -> "";
-                case "diasmp" -> "";
-                case "shieldlessuhc" -> "";
+            String icon = switch (ConfigFile.get("gamemode", "Vanilla")) {
+                case "Vanilla" -> "";
+                case "UHC" -> "";
+                case "Pot" -> "";
+                case "NethPot" -> "";
+                case "SMP" -> "";
+                case "Sword" -> "";
+                case "Axe" -> "";
+                case "Mace" -> "";
+                case "Cart" -> "";
+                case "Creeper" -> "";
+                case "DiaSMP" -> "";
+                case "OGVanilla" -> "";
+                case "ShieldlessUHC" -> "";
                 default -> "";
             };
 
@@ -68,8 +71,8 @@ public abstract class PlayerEntityMixin {
             }
 
             Text prefixedName = Text.literal("")
-                    .append(Text.literal(icon).setStyle(Style.EMPTY.withFont(Identifier.of("hutierstagger:default"))))
-                    .append(Text.literal(prefix).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(Integer.parseInt(color, 16)))))
+                    .append(Text.literal(icon).setStyle(Style.EMPTY.withFont(new StyleSpriteSource.Font(Identifier.of("hutierstagger:default")))))
+                    .append(Text.literal(" " + prefix).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(Integer.parseInt(color, 16)))))
                     .append(Text.literal(" §8| §r"))
                     .append(cir.getReturnValue());
 

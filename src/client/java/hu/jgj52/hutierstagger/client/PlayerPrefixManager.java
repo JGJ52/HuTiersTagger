@@ -33,7 +33,7 @@ public class PlayerPrefixManager {
                     JsonObject prefixObj = arr.get(0).getAsJsonObject();
                     JsonObject retiredObj = arr.get(1).getAsJsonObject();
 
-                    String gamemodeKey = HutierstaggerClient.getInstance().getGamemode().toLowerCase();
+                    String gamemodeKey = HutierstaggerClient.getInstance().getGamemode();
                     String gamemode = prefixObj.has(gamemodeKey) ? prefixObj.get(gamemodeKey).getAsString() : "";
                     prefixMap.put(playerName, gamemode);
 

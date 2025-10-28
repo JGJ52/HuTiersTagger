@@ -20,14 +20,14 @@ public class HutierstaggerClient implements ClientModInitializer {
     public void onInitializeClient() {
         instance = this;
         ConfigFile.load();
-        gamemode = ConfigFile.get("gamemode", "vanilla");
+        gamemode = ConfigFile.get("gamemode", "Vanilla");
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("setgamemode")
                 .then(ClientCommandManager.argument("mode", StringArgumentType.word())
-                        .suggests((context, builder) -> CommandSource.suggestMatching(Set.of("vanilla", "uhc", "pot", "nethpot", "smp", "sword", "axe", "mace", "cart", "creeper", "diasmp", "ogvanilla", "shieldlessuhc"), builder))
+                        .suggests((context, builder) -> CommandSource.suggestMatching(Set.of("Vanilla", "UHC", "Pot", "NethPot", "SMP", "Sword", "Axe", "Mace", "Cart", "Creeper", "DiaSMP", "OGVanilla", "ShieldlessUHC"), builder))
                         .executes(context -> {
                             String mode = StringArgumentType.getString(context, "mode");
 
-                            if (!List.of("vanilla", "uhc", "pot", "nethpot", "smp", "sword", "axe", "mace", "cart", "creeper", "diasmp", "ogvanilla", "shieldlessuhc").contains(mode)) {
+                            if (!List.of("Vanilla", "UHC", "Pot", "NethPot", "SMP", "Sword", "Axe", "Mace", "Cart", "Creeper", "DiaSMP", "OGVanilla", "ShieldlessUHC").contains(mode)) {
                                 context.getSource().sendFeedback(Text.literal("§cNincs ilyen gamemode!"));
                                 return 0;
                             }
