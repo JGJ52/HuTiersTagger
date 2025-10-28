@@ -2,77 +2,77 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "minecraft:icons/vanilla.png",
+      "file": "hutierstagger:icons/vanilla.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/uhc.png",
+      "file": "hutierstagger:icons/uhc.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/pot.png",
+      "file": "hutierstagger:icons/pot.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/nethpot.png",
+      "file": "hutierstagger:icons/nethpot.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/smp.png",
+      "file": "hutierstagger:icons/smp.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/sword.png",
+      "file": "hutierstagger:icons/sword.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/axe.png",
+      "file": "hutierstagger:icons/axe.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/mace.png",
+      "file": "hutierstagger:icons/mace.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/cart.png",
+      "file": "hutierstagger:icons/cart.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/diasmp.png",
+      "file": "hutierstagger:icons/diasmp.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
     },
     {
       "type": "bitmap",
-      "file": "minecraft:icons/shieldlessuhc.png",
+      "file": "hutierstagger:icons/shieldlessuhc.png",
       "ascent": 8,
       "height": 8,
       "chars": [""]
