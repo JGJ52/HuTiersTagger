@@ -44,7 +44,7 @@ public abstract class PlayerEntityMixin {
                 default -> "ffffff";
             };
 
-            String icon = switch (PlayerPrefixManager.getNowGamemode().isEmpty() ? ConfigFile.get("gamemode", "Vanilla") : PlayerPrefixManager.getNowGamemode()) {
+            String icon = switch (PlayerPrefixManager.getNowGamemode(playerName).isEmpty() ? ConfigFile.get("gamemode", "Vanilla") : PlayerPrefixManager.getNowGamemode(playerName)) {
                 case "Vanilla" -> "";
                 case "UHC" -> "";
                 case "Pot" -> "";

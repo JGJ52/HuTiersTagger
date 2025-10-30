@@ -18,7 +18,7 @@ public class PlayerPrefixManager {
     private static final Gson gson = new Gson();
     private static final ConcurrentHashMap<String, String> prefixMap = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Boolean> retiredMap = new ConcurrentHashMap<>();
-    private static String nowGamemode = "";
+    private static final ConcurrentHashMap<String, String> nowGamemode = new ConcurrentHashMap<>();
 
     public static void fetchPlayer(String playerName) {
         new Thread(() -> {
@@ -41,7 +41,7 @@ public class PlayerPrefixManager {
 
                     if (prefixObj.has(gamemodeKey) && !prefixObj.get(gamemodeKey).getAsString().isEmpty()) {
                         gamemode = prefixObj.get(gamemodeKey).getAsString();
-                        nowGamemode = "";
+                        nowGamemode.put(playerName, "");
                     } else {
                         Map<String, Integer> list = new HashMap<>();
                         for (var entry : prefixObj.entrySet()) {
@@ -64,12 +64,12 @@ public class PlayerPrefixManager {
                         int max = list.values().stream().max(Integer::compare).orElse(0);
                         if (max == 0) {
                             gamemode = "";
-                            nowGamemode = "";
+                            nowGamemode.put(playerName, "");
                         } else {
                             for (Map.Entry<String, Integer> entry : list.entrySet()) {
                                 if (entry.getValue() == max) {
                                     gamemode = prefixObj.get(entry.getKey()).getAsString();
-                                    nowGamemode = entry.getKey();
+                                    nowGamemode.put(playerName, entry.getKey());
                                 }
                             }
                         }
@@ -101,7 +101,7 @@ public class PlayerPrefixManager {
         prefixMap.clear();
     }
 
-    public static String getNowGamemode() {
-        return nowGamemode;
+    public static String getNowGamemode(String playerName) {
+        return nowGamemode.getOrDefault(playerName, null);
     }
 }
