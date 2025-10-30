@@ -8,6 +8,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerPrefixManager {
@@ -16,6 +18,7 @@ public class PlayerPrefixManager {
     private static final Gson gson = new Gson();
     private static final ConcurrentHashMap<String, String> prefixMap = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Boolean> retiredMap = new ConcurrentHashMap<>();
+    private static String nowGamemode = "";
 
     public static void fetchPlayer(String playerName) {
         new Thread(() -> {
@@ -34,7 +37,44 @@ public class PlayerPrefixManager {
                     JsonObject retiredObj = arr.get(1).getAsJsonObject();
 
                     String gamemodeKey = HutierstaggerClient.getInstance().getGamemode();
-                    String gamemode = prefixObj.has(gamemodeKey) ? prefixObj.get(gamemodeKey).getAsString() : "";
+                    String gamemode = "";
+
+                    if (prefixObj.has(gamemodeKey) && !prefixObj.get(gamemodeKey).getAsString().isEmpty()) {
+                        gamemode = prefixObj.get(gamemodeKey).getAsString();
+                        nowGamemode = "";
+                    } else {
+                        Map<String, Integer> list = new HashMap<>();
+                        for (var entry : prefixObj.entrySet()) {
+                            String tier = entry.getValue().getAsString();
+                            int value = switch (tier) {
+                                case "LT5" -> 1;
+                                case "HT5" -> 2;
+                                case "LT4" -> 3;
+                                case "HT4" -> 4;
+                                case "LT3" -> 5;
+                                case "HT3" -> 6;
+                                case "LT2" -> 7;
+                                case "HT2" -> 8;
+                                case "LT1" -> 9;
+                                case "HT1" -> 10;
+                                default -> 0;
+                            };
+                            list.put(entry.getKey(), value);
+                        }
+                        int max = list.values().stream().max(Integer::compare).orElse(0);
+                        if (max == 0) {
+                            gamemode = "";
+                            nowGamemode = "";
+                        } else {
+                            for (Map.Entry<String, Integer> entry : list.entrySet()) {
+                                if (entry.getValue() == max) {
+                                    gamemode = prefixObj.get(entry.getKey()).getAsString();
+                                    nowGamemode = entry.getKey();
+                                }
+                            }
+                        }
+                    }
+
                     prefixMap.put(playerName, gamemode);
 
                     Boolean retired = retiredObj.has(gamemodeKey) ? retiredObj.get(gamemodeKey).getAsBoolean() : false;
@@ -59,5 +99,9 @@ public class PlayerPrefixManager {
 
     public static void resetMap() {
         prefixMap.clear();
+    }
+
+    public static String getNowGamemode() {
+        return nowGamemode;
     }
 }
