@@ -29,17 +29,18 @@ import java.util.Set;
 public class HutierstaggerClient implements ClientModInitializer {
 
     private String gamemode;
+    private static boolean enabled;
 
     private static HutierstaggerClient instance;
 
     private static final HttpClient client = HttpClient.newHttpClient();
-    private static final Gson gson = new Gson();
 
     @Override
     public void onInitializeClient() {
         instance = this;
         ConfigFile.load();
         gamemode = ConfigFile.get("gamemode", "Vanilla");
+        enabled = Boolean.parseBoolean(ConfigFile.get("enabled", "true"));
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("setgamemode")
                 .then(ClientCommandManager.argument("mode", StringArgumentType.word())
                         .suggests((context, builder) -> CommandSource.suggestMatching(Set.of("Vanilla", "UHC", "Pot", "NethPot", "SMP", "Sword", "Axe", "Mace", "Cart", "Creeper", "DiaSMP", "OGVanilla", "ShieldlessUHC"), builder))
@@ -121,53 +122,23 @@ public class HutierstaggerClient implements ClientModInitializer {
                         })
                 )
         ));
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("setgamemodekit")
-                .then(ClientCommandManager.argument("mode", StringArgumentType.word())
-                        .suggests((context, builder) -> CommandSource.suggestMatching(Set.of("Vanilla", "UHC", "Pot", "NethPot", "SMP", "Sword", "Axe", "Mace", "Cart", "Creeper", "DiaSMP", "OGVanilla", "ShieldlessUHC"), builder))
-                        .executes(context -> {
-                            String mode = StringArgumentType.getString(context, "mode");
-
-                            if (!List.of("Vanilla", "UHC", "Pot", "NethPot", "SMP", "Sword", "Axe", "Mace", "Cart", "Creeper", "DiaSMP", "OGVanilla", "ShieldlessUHC").contains(mode)) {
-                                context.getSource().sendFeedback(Text.literal("§cNincs ilyen gamemode!"));
-                                return 0;
-                            }
-
-                            if (!MinecraftClient.getInstance().player.isCreative()) {
-                                context.getSource().sendFeedback(Text.literal("§cKreatívban kell lenned!"));
-                                return 0;
-                            }
-
-                            try {
-                                ItemStack[] items = new ItemStack[41];
-                                for (int i = 0; i <= 40; i++) {
-                                    items[i] = MinecraftClient.getInstance().player.getInventory().getStack(i);
-                                }
-                                String base64 = InventoryManager.itemStackArrayToBase64(items);
-                                String json = "{\"data\":\"" + base64 + "\"}";
-                                HttpRequest request = HttpRequest.newBuilder()
-                                        .uri(new URI("https://api.hutiers.hu/v2/gamemode/" + mode))
-                                        .header("Content-Type", "application/json")
-                                        .POST(HttpRequest.BodyPublishers.ofString(json))
-                                        .build();
-
-
-                                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-                                System.out.println(response.body());
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-
-
-                            context.getSource().sendFeedback(Text.literal("§aGamemode kitjét megkaptad: " + mode));
-                            return 1;
-                        })
-                )
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("togglehutierstagger")
+                .executes(context -> {
+                    enabled = !enabled;
+                    ConfigFile.set("enabled", String.valueOf(enabled));
+                    context.getSource().sendFeedback(Text.literal("§aSikeresen átállítva!"));
+                    return 1;
+                })
         ));
+
     }
 
     public String getGamemode() {
         return gamemode;
+    }
+
+    public static boolean getEnabled() {
+        return enabled;
     }
 
     public static HutierstaggerClient getInstance() {

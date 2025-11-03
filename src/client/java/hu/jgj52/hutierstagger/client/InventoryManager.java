@@ -41,6 +41,8 @@ public class InventoryManager {
 
     public static ItemStack[] itemStackArrayFromBase64(String base64) {
         try {
+            RegistryWrapper.WrapperLookup registryLookup = MinecraftClient.getInstance().world.getRegistryManager();
+
             byte[] bytes = Base64.getDecoder().decode(base64);
             String nbtString = new String(bytes, StandardCharsets.UTF_8);
 
@@ -51,7 +53,7 @@ public class InventoryManager {
 
             for (int i = 0; i < list.size(); i++) {
                 stacks[i] = ItemStack.CODEC.parse(
-                        NbtOps.INSTANCE,
+                        registryLookup.getOps(NbtOps.INSTANCE),
                         list.get(i)
                 ).result().orElse(ItemStack.EMPTY);
             }

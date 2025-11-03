@@ -1,6 +1,7 @@
 package hu.jgj52.hutierstagger.mixin;
 
 import hu.jgj52.hutierstagger.client.ConfigFile;
+import hu.jgj52.hutierstagger.client.HutierstaggerClient;
 import hu.jgj52.hutierstagger.client.PlayerPrefixManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Style;
@@ -76,7 +77,9 @@ public abstract class PlayerEntityMixin {
                     .append(Text.literal(" §8| §r"))
                     .append(cir.getReturnValue());
 
-            cir.setReturnValue(prefixedName);
+            if (HutierstaggerClient.getEnabled()) {
+                cir.setReturnValue(prefixedName);
+            }
         }
     }
 }
