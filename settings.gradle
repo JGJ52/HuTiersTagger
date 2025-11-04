@@ -7,3 +7,12 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+
+file('versions').eachDir { dir ->
+    def projectName = "versions-${dir.name}"
+    include(projectName)
+    project(":$projectName").projectDir = dir
+}
+
+

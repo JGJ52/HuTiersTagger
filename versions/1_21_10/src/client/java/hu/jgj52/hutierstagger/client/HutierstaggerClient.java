@@ -74,6 +74,7 @@ public class HutierstaggerClient implements ClientModInitializer {
                                 return 0;
                             }
 
+                            if (MinecraftClient.getInstance() == null || MinecraftClient.getInstance().player == null) return 0;
                             if (!MinecraftClient.getInstance().player.isCreative()) {
                                 context.getSource().sendFeedback(Text.literal("§cKreatívban kell lenned!"));
                                 return 0;

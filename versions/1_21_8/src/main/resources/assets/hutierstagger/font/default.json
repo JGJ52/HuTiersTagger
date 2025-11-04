@@ -1,0 +1,95 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/vanilla.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/uhc.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/pot.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/nethpot.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/smp.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/sword.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/axe.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/mace.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/cart.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/creeper.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/diasmp.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/ogvanilla.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    },
+    {
+      "type": "bitmap",
+      "file": "hutierstagger:icons/shieldlessuhc.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [""]
+    }
+  ]
+}

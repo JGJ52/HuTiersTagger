@@ -1,14 +1,9 @@
 package hu.jgj52.hutierstagger.client;
 
-import net.minecraft.block.GrindstoneBlock;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
 
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
@@ -46,9 +41,9 @@ public class InventoryManager {
             byte[] bytes = Base64.getDecoder().decode(base64);
             String nbtString = new String(bytes, StandardCharsets.UTF_8);
 
-            NbtCompound root = StringNbtReader.readCompound(nbtString);
+            NbtCompound root = StringNbtReader.parse(nbtString);
 
-            NbtList list = root.getList("Items").orElse(new NbtList());
+            NbtList list = root.getList("Items", NbtElement.COMPOUND_TYPE);
             ItemStack[] stacks = new ItemStack[list.size()];
 
             for (int i = 0; i < list.size(); i++) {
