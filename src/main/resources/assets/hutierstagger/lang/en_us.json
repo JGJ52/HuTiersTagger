@@ -1,0 +1,17 @@
+{
+  "text.config.hutierstagger.option.gamemode": "Selected gamemode",
+  "text.config.hutierstagger.option.gamemode.value.vanilla": "Vanilla",
+  "text.config.hutierstagger.option.gamemode.value.uhc": "UHC",
+  "text.config.hutierstagger.option.gamemode.value.pot": "Pot",
+  "text.config.hutierstagger.option.gamemode.value.nethpot": "NethPot",
+  "text.config.hutierstagger.option.gamemode.value.smp": "SMP",
+  "text.config.hutierstagger.option.gamemode.value.sword": "Sword",
+  "text.config.hutierstagger.option.gamemode.value.axe": "Axe",
+  "text.config.hutierstagger.option.gamemode.value.mace": "Mace",
+  "text.config.hutierstagger.option.gamemode.value.cart": "Cart",
+  "text.config.hutierstagger.option.gamemode.value.creeper": "Creeper",
+  "text.config.hutierstagger.option.gamemode.value.diasmp": "DiaSMP",
+  "text.config.hutierstagger.option.gamemode.value.ogvanilla": "OGVanilla",
+  "text.config.hutierstagger.option.gamemode.value.shieldlessuhc": "ShieldlessUHC",
+  "text.config.hutierstagger.option.enabled": "Enable mod"
+}
