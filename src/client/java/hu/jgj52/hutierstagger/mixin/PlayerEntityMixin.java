@@ -3,6 +3,7 @@ package hu.jgj52.hutierstagger.mixin;
 import com.sun.security.auth.login.ConfigFile;
 import hu.jgj52.hutierstagger.client.HutierstaggerClient;
 import hu.jgj52.hutierstagger.client.PlayerPrefixManager;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Style;
 //? if >1.21.8 {
@@ -16,11 +17,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Objects;
+import java.util.UUID;
+
 @Mixin(value = PlayerEntity.class, priority = 1500)
 public abstract class PlayerEntityMixin {
 
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
-    public void getDisplayNameHook(CallbackInfoReturnable<Text> cir) {
+    public void getDisplayName(CallbackInfoReturnable<Text> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         String playerName = player.getGameProfile()
         //? if <=1.21.8 {
@@ -92,7 +96,10 @@ public abstract class PlayerEntityMixin {
                     .append(Text.literal(" §8| §r"))
                     .append(cir.getReturnValue());
 
-            if (HutierstaggerClient.getEnabled()) {
+            boolean onlineMode = true;
+            if (Objects.equals(player.getUuid(), UUID.nameUUIDFromBytes(("OfflinePlayer:" + player.getName().getString()).getBytes()))) onlineMode = false;
+
+            if (HutierstaggerClient.getEnabled() && onlineMode) {
                 cir.setReturnValue(prefixedName);
             }
         }
