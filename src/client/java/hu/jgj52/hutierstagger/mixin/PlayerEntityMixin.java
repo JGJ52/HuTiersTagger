@@ -1,9 +1,7 @@
 package hu.jgj52.hutierstagger.mixin;
 
-import com.sun.security.auth.login.ConfigFile;
 import hu.jgj52.hutierstagger.client.HutierstaggerClient;
 import hu.jgj52.hutierstagger.client.PlayerPrefixManager;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Style;
 //? if >1.21.8 {
@@ -26,21 +24,21 @@ public abstract class PlayerEntityMixin {
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
     public void getDisplayName(CallbackInfoReturnable<Text> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        String playerName = player.getGameProfile()
+        UUID id = player.getGameProfile()
         //? if <=1.21.8 {
-        /*.getName();
+        /*.getId();
         *///? } else {
-        .name();
+        .id();
         //? }
 
-        String prefix = PlayerPrefixManager.getPrefix(playerName);
+        String prefix = PlayerPrefixManager.getPrefix(id);
         if (prefix == null) {
-            PlayerPrefixManager.fetchPlayer(playerName);
+            PlayerPrefixManager.fetchPlayer(id);
             return;
         }
 
         if (!prefix.isEmpty()) {
-            Boolean retired = PlayerPrefixManager.getRetired(playerName);
+            Boolean retired = PlayerPrefixManager.getRetired(id);
 
             String color = switch (prefix) {
                 case "HT1" -> "ffcf4a";
@@ -56,7 +54,7 @@ public abstract class PlayerEntityMixin {
                 default -> "ffffff";
             };
 
-            String icon = switch (PlayerPrefixManager.getNowGamemode(playerName).isEmpty() ? HutierstaggerClient.config.gamemode().name() : PlayerPrefixManager.getNowGamemode(playerName)) {
+            String icon = switch (PlayerPrefixManager.getNowGamemode(id).isEmpty() ? HutierstaggerClient.config.gamemode().name() : PlayerPrefixManager.getNowGamemode(id)) {
                 case "Vanilla" -> "";
                 case "UHC" -> "";
                 case "Pot" -> "";

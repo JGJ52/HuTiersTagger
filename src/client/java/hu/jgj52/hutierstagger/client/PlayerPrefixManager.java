@@ -10,22 +10,23 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerPrefixManager {
 
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final Gson gson = new Gson();
-    private static final ConcurrentHashMap<String, String> prefixMap = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, Boolean> retiredMap = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, String> nowGamemode = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<UUID, String> prefixMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<UUID, Boolean> retiredMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<UUID, String> nowGamemode = new ConcurrentHashMap<>();
 
-    public static void fetchPlayer(String playerName) {
+    public static void fetchPlayer(UUID player) {
         new Thread(() -> {
             try {
-                prefixMap.putIfAbsent(playerName, "");
+                prefixMap.putIfAbsent(player, "");
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(new URI("https://api.hutiers.hu/v2/player/" + playerName))
+                        .uri(new URI("https://api.hutiers.hu/v3/player/" + player))
                         .GET()
                         .build();
 
@@ -41,7 +42,7 @@ public class PlayerPrefixManager {
 
                     if (prefixObj.has(gamemodeKey) && !prefixObj.get(gamemodeKey).getAsString().isEmpty()) {
                         gamemode = prefixObj.get(gamemodeKey).getAsString();
-                        nowGamemode.put(playerName, "");
+                        nowGamemode.put(player, "");
                     } else {
                         Map<String, Integer> list = new HashMap<>();
                         for (var entry : prefixObj.entrySet()) {
@@ -64,24 +65,24 @@ public class PlayerPrefixManager {
                         int max = list.values().stream().max(Integer::compare).orElse(0);
                         if (max == 0) {
                             gamemode = "";
-                            nowGamemode.put(playerName, "");
+                            nowGamemode.put(player, "");
                         } else {
                             for (Map.Entry<String, Integer> entry : list.entrySet()) {
                                 if (entry.getValue() == max) {
                                     gamemode = prefixObj.get(entry.getKey()).getAsString();
-                                    nowGamemode.put(playerName, entry.getKey());
+                                    nowGamemode.put(player, entry.getKey());
                                 }
                             }
                         }
                     }
 
-                    prefixMap.put(playerName, gamemode);
+                    prefixMap.put(player, gamemode);
 
                     Boolean retired = retiredObj.has(gamemodeKey) && retiredObj.get(gamemodeKey).getAsBoolean();
-                    retiredMap.put(playerName, retired);
+                    retiredMap.put(player, retired);
 
                 } else {
-                    prefixMap.put(playerName, "");
+                    prefixMap.put(player, "");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -89,19 +90,25 @@ public class PlayerPrefixManager {
         }).start();
     }
 
-    public static String getPrefix(String playerName) {
-        return prefixMap.getOrDefault(playerName, null);
+    public static String getPrefix(UUID player) {
+        return prefixMap.getOrDefault(player, null);
     }
 
-    public static Boolean getRetired(String playerName) {
-        return retiredMap.getOrDefault(playerName, false);
+    public static Boolean getRetired(UUID player) {
+        return retiredMap.getOrDefault(player, false);
     }
 
     public static void resetMap() {
         prefixMap.clear();
     }
 
-    public static String getNowGamemode(String playerName) {
-        return nowGamemode.getOrDefault(playerName, null);
+    public static String getNowGamemode(UUID player) {
+        return nowGamemode.getOrDefault(player, null);
+    }
+
+    public static void removePlayer(UUID player) {
+        prefixMap.remove(player);
+        retiredMap.remove(player);
+        nowGamemode.remove(player);
     }
 }

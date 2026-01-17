@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemStack;
@@ -38,6 +37,8 @@ public class HutierstaggerClient implements ClientModInitializer {
             this.gamemode = gamemode.name();
             PlayerPrefixManager.resetMap();
         });
+        WebSocketManager webSocketManager = new WebSocketManager();
+        webSocketManager.conncect("wss://api.hutiers.hu/");
         config.subscribeToEnabled(enabled -> HutierstaggerClient.enabled = enabled);
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("getgamemodekit")
                 .then(ClientCommandManager.argument("mode", StringArgumentType.word())
